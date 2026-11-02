@@ -155,3 +155,13 @@ You must understand every line you submit. We check this with your video and in 
 5. Paste the repository link and the video link in the application form.
 
 We will run `pnpm install && pnpm check && pnpm typecheck && pnpm test` on your repository.
+
+## Decisions
+
+1. **Store money as integer cents.** This avoids floating point rounding and lets the database enforce positive whole-cent amounts.
+2. **Use SQLite constraints and conditional payment updates.** Foreign keys, checks, and uniqueness protect relationships and share integrity; an update conditioned on `paid_at IS NULL` ensures concurrent requests cannot pay the same share twice.
+3. **Keep the client focused on reading bills and paying shares.** The page accepts a home ID, reports loading and failures in place, and only marks a share paid after the API confirms the payment.
+
+## AI assistance
+
+OpenAI Codex was used to help implement and format the solution. I will review and explain every submitted line of code, including the schema, atomic payment flow, and UI error handling.
